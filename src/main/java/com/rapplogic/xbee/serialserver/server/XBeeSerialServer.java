@@ -42,7 +42,7 @@ import com.rapplogic.xbee.api.XBeePacket;
 import com.rapplogic.xbee.api.XBeeResponse;
 import com.rapplogic.xbee.util.ByteUtils;
 
-// REPLACE WITH PYTHON!!! JAVA SERIAL IS POO POO
+// TODO rewrite in Python, RXTX is a pain
 
 public class XBeeSerialServer {
 	 
