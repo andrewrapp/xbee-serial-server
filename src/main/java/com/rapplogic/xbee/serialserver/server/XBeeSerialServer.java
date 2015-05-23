@@ -83,8 +83,8 @@ public class XBeeSerialServer {
 		// replace with the com port of your XBee coordinator
 		xbee.open(port, 9600);
 		
-		socketServer = new ServerSocket(9000);
-		log.debug("Socket server listening on port 9000");
+		socketServer = new ServerSocket(10010);
+		log.debug("Socket server listening on port 10010");
 		
 		final ExecutorService socketReaderExecutor = Executors.newCachedThreadPool();
 		
