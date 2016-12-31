@@ -1,20 +1,20 @@
 /**
  * Copyright (c) 2009 Andrew Rapp. All rights reserved.
  *  
- * This file is part of XBee-XMPP
+ * This file is part of XBeeSerialServer
  *  
- * XBee-XMPP is free software: you can redistribute it and/or modify
+ * xbee-serial-server is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *  
- * XBee-XMPP is distributed in the hope that it will be useful,
+ * xbee-serial-server is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *  
  * You should have received a copy of the GNU General Public License
- * along with XBee-XMPP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with xbee-serial-server.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.rapplogic.xbee.serialserver.server;
@@ -42,7 +42,7 @@ import com.rapplogic.xbee.api.XBeePacket;
 import com.rapplogic.xbee.api.XBeeResponse;
 import com.rapplogic.xbee.util.ByteUtils;
 
-// TODO rewrite in Python, RXTX is a pain
+// TODO ditch RXTX and adopt a supported serial lib
 
 public class XBeeSerialServer {
 	 
