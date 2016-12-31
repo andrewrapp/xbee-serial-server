@@ -124,7 +124,7 @@ public class XBeeSerialServer {
 	            	try {
 	            		log.debug("Waiting for socket connecton from client");
 		                final Socket socket = socketServer.accept();
-		                log.info("Client connected from " + socket.getRemoteSocketAddress());
+		                log.debug("Client connected from " + socket.getRemoteSocketAddress());
 		                
 		                clients.add(socket);	
 		                
@@ -141,7 +141,7 @@ public class XBeeSerialServer {
 									log.warn("Socket read error", t);
 								}
 								
-								log.info("Socket closed " + socket.getReuseAddress() + ". removing from clients");
+								log.debug("Socket closed " + socket.getReuseAddress() + ". removing from clients");
 								
 								// socket disconnect
 								clients.remove(socket);
