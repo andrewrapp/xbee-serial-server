@@ -5,12 +5,49 @@
 	<groupId>com.rapplogic</groupId>
 	<artifactId>xbee-serial-server</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
-	<name></name>
+	<version>0.9.1-SNAPSHOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
+
+	<!-- Maven central -->
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Socket server for sharing access to a XBee via usb-serial over TCP. Pairs with the xbee-api client</description>
+	<url>https://github.com/andrewrapp/xbee-serial-server/</url>
+
+	<licenses>
+		<license>
+			<name>GPL license, Version 3.0</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Andrew Rapp</name>
+			<email>andrew.rapp+github.com@gmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:andrewrapp/xbee-serial-server.git</connection>
+		<developerConnection>scm:git:git@github.com:andrewrapp/xbee-serial-server.git</developerConnection>
+		<url>https://github.com/andrewrapp/xbee-serial-server/</url>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
@@ -22,7 +59,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
 
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -41,6 +77,100 @@
 				</executions>
 			</plugin>
 
+			<!-- Maven Central plugins -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose> <!-- if true does what you think; otherwise need to release via sonatype UI -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<additionalparam>-Xdoclint:none</additionalparam>
+				</configuration>
+			</plugin>
+
+			<!-- provides git meta in artifact -->
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>validate-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<excludeProperties>
+						<excludeProperty>git.build.*</excludeProperty>
+						<excludeProperty>git.commit.user.email</excludeProperty>
+						<excludeProperty>git.commit.message.*</excludeProperty>
+						<excludeProperty>git.commit.id.describe</excludeProperty>
+						<excludeProperty>git.commit.user.name</excludeProperty>
+						<excludeProperty>git.remote.origin.url</excludeProperty>
+						<excludeProperty>git.commit.id.abbrev</excludeProperty>
+						<excludeProperty>git.closest.tag.name</excludeProperty>
+						<excludeProperty>git.closest.tag.commit.count</excludeProperty>
+						<excludeProperty>git.remote.origin.url</excludeProperty>
+					</excludeProperties>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -57,8 +187,8 @@
 		</dependency>
 		<dependency>
     		<groupId>com.rapplogic</groupId>
-    		<artifactId>xbeeapi</artifactId>
-    		<version>0.9.1-SNAPSHOT</version>
+    		<artifactId>xbee-api</artifactId>
+    		<version>0.9.1</version>
 		</dependency>
 	   	<dependency>
 	      <groupId>com.github.rholder</groupId>
