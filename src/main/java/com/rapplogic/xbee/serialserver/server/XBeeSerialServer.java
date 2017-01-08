@@ -55,7 +55,8 @@ public class XBeeSerialServer {
 	private List<Socket> clients = new CopyOnWriteArrayList<Socket>();
 	
 	private final int MAX_PACKET_SIZE = 120;
-	
+
+	// TODO make baud rate and listen port cmdline arguments
 	public static void main(String[] args) throws Exception {
 		// init log4j
 		PropertyConfigurator.configure("log4j.properties");
@@ -64,8 +65,12 @@ public class XBeeSerialServer {
 			System.err.println("Serial port or xbee device must be specified as the argument, e.g. /dev/tty.usbserial-A6005uRz");
 			System.exit(1);
 		}
-		
-		new XBeeSerialServer(args[0]);
+
+		try {
+			new XBeeSerialServer(args[0]);
+		} catch (Exception e) {
+			log.error("Serial server failed", e);
+		}
 	}
 	
 	public void shutdown() throws IOException {

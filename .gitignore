@@ -1,3 +1,6 @@
 bin
 target
 *.log
+.*
+*.iml
+private
