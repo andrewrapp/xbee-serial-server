@@ -127,36 +127,38 @@ public class XBeeSerialServer {
 			public Void call() throws Exception {
 	            while (true) {
 	            	try {
-	            		log.debug("Waiting for socket connecton from client");
-		                final Socket socket = socketServer.accept();
-		                log.debug("Client connected from " + socket.getRemoteSocketAddress());
-		                
-		                clients.add(socket);	
-		                
-		                log.debug("There are " + clients.size() + " active clients");
-		                
-		                //nio would be better here
-		                socketReaderExecutor.submit(new Callable<Void>() {
+						log.debug("Waiting for socket connecton from client");
+						final Socket socket = socketServer.accept();
+						log.debug("Client connected from " + socket.getRemoteSocketAddress());
+
+						clients.add(socket);
+
+						log.debug("There are " + clients.size() + " active clients");
+
+						//nio would be better here
+						socketReaderExecutor.submit(new Callable<Void>() {
 							public Void call() throws Exception {
 								try {
 									// blocks until socket disconnect
-									readSocket(socket.getInputStream());									
+									readSocket(socket.getInputStream());
 								} catch (Throwable t) {
 									// TODO do we need to close?
 									log.warn("Socket read error", t);
 								}
-								
+
 								log.debug("Socket closed " + socket.getReuseAddress() + ". removing from clients");
-								
+
 								// socket disconnect
 								clients.remove(socket);
-								
+
 								log.debug("There are " + clients.size() + " active clients");
-								
+
 								return null;
 							}
 						});
-			        } catch (Throwable t) {
+					} catch (IOException e) {
+						log.info("Socket server closed " + e.toString());
+	            	} catch (Throwable t) {
 			        	log.error("Error in socket server", t);
 			        }
 	            }
@@ -200,9 +202,11 @@ public class XBeeSerialServer {
 							// really closing the socket will suffice to exit but for good measure
 							break;
 						}
-					}					
+					}
+				} catch (IOException e) {
+					log.warn("I/O error sending packet to client " + e.toString());
 				} catch (Throwable t) {
-					log.error("Error reading from queue", t);
+					log.error("Error servicing client", t);
 				}
 				
 				return null;

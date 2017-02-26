@@ -91,7 +91,7 @@
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
-						<phase>verify</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
@@ -195,12 +195,7 @@
 		<dependency>
     		<groupId>com.rapplogic</groupId>
     		<artifactId>xbee-api</artifactId>
-    		<version>0.9.1</version>
+    		<version>0.9.4-SNAPSHOT</version>
 		</dependency>
-	   	<dependency>
-	      <groupId>com.github.rholder</groupId>
-	      <artifactId>guava-retrying</artifactId>
-	      <version>1.0.6</version>
-	    </dependency>		
 	</dependencies>
 </project>
