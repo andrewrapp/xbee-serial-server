@@ -22,6 +22,7 @@ package com.rapplogic.xbee.serialserver.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -82,13 +83,17 @@ public class XBeeSerialServer {
 	}
 	
 	public XBeeSerialServer(String port) throws Exception {
+		// try to get server settings via properties
+		final int tcpPort = Integer.valueOf(System.getProperty("xbee.server.tcpPort", "10010"));
+		final InetAddress tcpAddress = InetAddress.getByName(System.getProperty("xbee.server.tcpAddress", "0.0.0.0"));
+
 		xbee = new XBee(new XBeeConfiguration().withStartupChecks(false));
 		
 		log.info("Connecting to serial port " + port);
 		// replace with the com port of your XBee coordinator
 		xbee.open(port, 9600);
 		
-		socketServer = new ServerSocket(10010);
+		socketServer = new ServerSocket(tcpPort, 0, tcpAddress);
 		log.debug("Socket server listening on port 10010");
 		
 		final ExecutorService socketReaderExecutor = Executors.newCachedThreadPool();
